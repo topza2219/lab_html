@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Code Box Example</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 50px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 200px;
+      font-family: monospace;
+      font-size: 16px;
+      padding: 10px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+      resize: vertical;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    iframe {
+      width: 100%;
+      height: 200px;
+      border: 1px solid #ccc;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<h2>Code Editor + Preview</h2>
+
+<!-- กล่องเขียนโค้ด
+<textarea id="code">
+<h1>&lt;h1&gt;A heading here&lt;/h1&gt;</h1>
+<p>&lt;p&gt;Posted by John Doe&lt;/p&gt;</p>
+<p>&lt;p&gt;Some additional information here&lt;/p&gt;</p>
+<p>&lt;p&gt;Lorem Ipsum dolor set amet....&lt;/p&gt;</p>
+</textarea>
+ -->
+<textarea id="code">
+<h1>A heading here</h1>
+<p>Posted by John Doe</p>
+<p>Some additional information here</p>
+<p>Lorem Ipsum dolor set amet....</p>
+</textarea>
+
+<!-- ปุ่มรันโค้ด -->
+<button onclick="runCode()">Run Code</button>
+
+<h3>Preview:</h3>
+<!-- กล่องแสดงผล -->
+<iframe id="preview"></iframe>
+    <button onclick="window.location.href='../index.html'">กลับไปหน้าหลัก</button>
+
+<script>
+function runCode() {
+  const code = document.getElementById("code").value;
+  const iframe = document.getElementById("preview");
+  iframe.srcdoc = code;
+}
+</script>
+
+</body>
+</html>

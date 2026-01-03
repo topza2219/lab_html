@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เรียนรู้เรื่องวิดิโอ HTML</title>
+</head>
+<body>
+    <div class="video-content">
+    <h1>เรียนรู้เกี่ยวกับวิดิโอใน HTML</h1>
+    <p>ในบทเรียนนี้ เราจะเรียนรู้เกี่ยวกับการฝังวิดิโอใน HTML โดยใช้แท็ก &lt;video&gt; เพื่อแสดงวิดิโอบนเว็บเพจ</p>
+    <p>แท็ก &lt;video&gt; ใช้สำหรับฝังไฟล์วิดิโอในหน้าเว็บ ซึ่งสามารถกำหนดแหลากหลายแอตทริบิวต์ เช่น controls, autoplay, loop, muted เป็นต้น</p>
+        <h3>ตัวอย่าง YouTube Video</h3>
+<iframe width="560" height="315" 
+    src="https://www.youtube.com/embed/ieoZTitbCwM?start=2" 
+    title="YouTube video player" frameborder="0" 
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+    allowfullscreen>
+</iframe>
+
+    <h3>ตัวอย่างโค้ด HTML สำหรับแท็ก &lt;video&gt;</h3>
+    <pre>
+        &lt;video width="320" height="240" controls&gt;
+            &lt;source src="movie.mp4" type="video/mp4"&gt;
+            &lt;source src="movie.ogg" type="video/ogg"&gt;
+            Your browser does not support the video tag.
+        &lt;/video&gt;
+    </pre>
+    <p>ในตัวอย่างข้างต้น เราได้กำหนดความกว้างและความสูงของวิดิโอเป็น 320x240 พิกเซล และเพิ่มแอตทริบิวต์ controls เพื่อแสดงแถบควบคุมวิดิโอ</p>
+    </div>
+        <button onclick="window.location.href='../index.html'">กลับไปหน้าหลัก</button>
+
+</body>
+</html>

@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security API Web Interface</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        .api-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .section-title {
+            color: #333;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #667eea;
+            font-size: 1.8em;
+        }
+        
+        .endpoint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-top: 30px;
+        }
+        
+        .endpoint-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 25px;
+            border-left: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .endpoint-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .endpoint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .method {
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+        
+        .method.get { background: #61affe; color: white; }
+        .method.post { background: #49cc90; color: white; }
+        
+        .endpoint-path {
+            font-family: 'Courier New', monospace;
+            background: #333;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9em;
+            overflow-x: auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+        
+        input[type="text"],
+        input[type="url"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+        
+        input[type="text"]:focus,
+        input[type="url"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        textarea {
+            min-height: 120px;
+            resize: vertical;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: auto;
+            transform: scale(1.2);
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            width: 100%;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .btn:active {
+            transform: translateY(0);
+        }
+        
+        .response-container {
+            margin-top: 25px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e9ecef;
+        }
+        
+        .response-header {
+            background: #333;
+            color: white;
+            padding: 12px 20px;
+            font-weight: 600;
+        }
+        
+        .response-body {
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        
+        .status {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: bold;
+        }
+        
+        .status.success { background: #d4edda; color: #155724; }
+        .status.error { background: #f8d7da; color: #721c24; }
+        
+        @media (max-width: 768px) {
+            .endpoint-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2em;
+            }
+            
+            .api-section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🔒 Security API Web Interface</h1>
+            <p>Educational Security Analysis Tool - For Learning Purposes Only</p>
+        </div>
+
+        <!-- Health Check Section -->
+        <div class="api-section">
+            <h2 class="section-title">Health Check</h2>
+            <div class="endpoint-card">
+                <div class="endpoint-header">
+                    <h3>API Status</h3>
+                    <span class="method get">GET</span>
+                </div>
+                <div class="endpoint-path">/health</div>
+                <p>Check if the Security API is running and healthy.</p>
+                <button class="btn" onclick="testHealth()">Test Health Check</button>
+                <div class="response-container" id="health-response" style="display: none;">
+                    <div class="response-header">Response</div>
+                    <div class="response-body">
+                        <pre id="health-result"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Educational Endpoints Section -->
+        <div class="api-section">
+            <h2 class="section-title">Educational Resources</h2>
+            <div class="endpoint-grid">
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <h3>Malware Patterns</h3>
+                        <span class="method get">GET</span>
+                    </div>
+                    <div class="endpoint-path">/api/v1/educational/patterns</div>
+                    <p>Learn about common malware patterns and attack signatures.</p>
+                    <button class="btn" onclick="getPatterns()">Get Patterns</button>
+                    <div class="response-container" id="patterns-response" style="display: none;">
+                        <div class="response-header">Response</div>
+                        <div class="response-body">
+                            <pre id="patterns-result"></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <h3>Attack Techniques</h3>
+                        <span class="method get">GET</span>
+                    </div>
+                    <div class="endpoint-path">/api/v1/educational/techniques</div>
+                    <p>Understand different attack techniques and prevention methods.</p>
+                    <button class="btn" onclick="getTechniques()">Get Techniques</button>
+                    <div class="response-container" id="techniques-response" style="display: none;">
+                        <div class="response-header">Response</div>
+                        <div class="response-body">
+                            <pre id="techniques-result"></pre>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="endpoint-card">
+                    <div class="endpoint-header">
+                        <h3>Prevention Methods</h3>
+                        <span class="method get">GET</span>
+                    </div>
+                    <div class="endpoint-path">/api/v1/educational/prevention</div>
+                    <p>Learn security best practices and prevention strategies.</p>
+                    <button class="btn" onclick="getPrevention()">Get Prevention Methods</button>
+                    <div class="response-container" id="prevention-response" style="display: none;">
+                        <div class="response-header">Response</div>
+                        <div class="response-body">
+                            <pre id="prevention-result"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Analysis Section -->
+        <div class="api-section">
+            <h2 class="section-title">Security Analysis Tools</h2>
+            
+            <!-- URL Scan -->
+            <div class="endpoint-card" style="margin-bottom: 25px;">
+                <div class="endpoint-header">
+                    <h3>Scan URL</h3>
+                    <span class="method post">POST</span>
+                </div>
+                <div class="endpoint-path">/api/v1/security/scan/url</div>
+                <p>Scan a URL for potential security threats.</p>
+                
+                <div class="form-group">
+                    <label for="url">URL to Scan:</label>
+                    <input type="url" id="url" placeholder="https://example.com" value="http://phishing-test.com/login.exe">
+                </div>
+                
+                <div class="form-group">
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="deep-scan" checked>
+                        <label for="deep-scan">Enable Deep Scan</label>
+                    </div>
+                </div>
+                
+                <button class="btn" onclick="scanUrl()">Scan URL</button>
+                <div class="response-container" id="url-scan-response" style="display: none;">
+                    <div class="response-header">Response</div>
+                    <div class="response-body">
+                        <pre id="url-scan-result"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Code Analysis -->
+            <div class="endpoint-card" style="margin-bottom: 25px;">
+                <div class="endpoint-header">
+                    <h3>Analyze Code</h3>
+                    <span class="method post">POST</span>
+                </div>
+                <div class="endpoint-path">/api/v1/security/analyze/code</div>
+                <p>Analyze code for security vulnerabilities.</p>
+                
+                <div class="form-group">
+                    <label for="language">Programming Language:</label>
+                    <select id="language">
+                        <option value="php">PHP</option>
+                        <option value="javascript">JavaScript</option>
+                        <option value="python">Python</option>
+                        <option value="java">Java</option>
+                        <option value="sql">SQL</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="code">Code to Analyze:</label>
+                    <textarea id="code" placeholder="Enter code here...">SELECT * FROM users WHERE username = 'admin' OR '1'='1'</textarea>
+                </div>
+                
+                <button class="btn" onclick="analyzeCode()">Analyze Code</button>
+                <div class="response-container" id="code-analysis-response" style="display: none;">
+                    <div class="response-header">Response</div>
+                    <div class="response-body">
+                        <pre id="code-analysis-result"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- File Scan -->
+            <div class="endpoint-card" style="margin-bottom: 25px;">
+                <div class="endpoint-header">
+                    <h3>Scan File</h3>
+                    <span class="method post">POST</span>
+                </div>
+                <div class="endpoint-path">/api/v1/security/scan/file</div>
+                <p>Scan a file for potential malware.</p>
+                
+                <div class="form-group">
+                    <label for="filename">Filename:</label>
+                    <input type="text" id="filename" placeholder="example.exe" value="invoice.pdf.exe">
+                </div>
+                
+                <div class="form-group">
+                    <label for="file-content">File Content (optional):</label>
+                    <textarea id="file-content" placeholder="Enter file content or leave blank...">This is a suspicious file that might contain malware.</textarea>
+                </div>
+                
+                <button class="btn" onclick="scanFile()">Scan File</button>
+                <div class="response-container" id="file-scan-response" style="display: none;">
+                    <div class="response-header">Response</div>
+                    <div class="response-body">
+                        <pre id="file-scan-result"></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Security Report -->
+            <div class="endpoint-card">
+                <div class="endpoint-header">
+                    <h3>Security Report</h3>
+                    <span class="method get">GET</span>
+                </div>
+                <div class="endpoint-path">/api/v1/security/report</div>
+                <p>Get overall security analysis report.</p>
+                <button class="btn" onclick="getSecurityReport()">Get Security Report</button>
+                <div class="response-container" id="report-response" style="display: none;">
+                    <div class="response-header">Response</div>
+                    <div class="response-body">
+                        <pre id="report-result"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080';
+        
+        // Format JSON response
+        function formatJson(data) {
+            return JSON.stringify(data, null, 2);
+        }
+        
+        // Show response in container
+        function showResponse(containerId, resultId, data) {
+            const container = document.getElementById(containerId);
+            const result = document.getElementById(resultId);
+            
+            result.textContent = formatJson(data);
+            container.style.display = 'block';
+            
+            // Scroll to response
+            container.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+        
+        // Health Check
+        async function testHealth() {
+            try {
+                const response = await fetch(`${API_BASE}/health`);
+                const data = await response.json();
+                showResponse('health-response', 'health-result', data);
+            } catch (error) {
+                showResponse('health-response', 'health-result', { error: error.message });
+            }
+        }
+        
+        // Educational Endpoints
+        async function getPatterns() {
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/educational/patterns`);
+                const data = await response.json();
+                showResponse('patterns-response', 'patterns-result', data);
+            } catch (error) {
+                showResponse('patterns-response', 'patterns-result', { error: error.message });
+            }
+        }
+        
+        async function getTechniques() {
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/educational/techniques`);
+                const data = await response.json();
+                showResponse('techniques-response', 'techniques-result', data);
+            } catch (error) {
+                showResponse('techniques-response', 'techniques-result', { error: error.message });
+            }
+        }
+        
+        async function getPrevention() {
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/educational/prevention`);
+                const data = await response.json();
+                showResponse('prevention-response', 'prevention-result', data);
+            } catch (error) {
+                showResponse('prevention-response', 'prevention-result', { error: error.message });
+            }
+        }
+        
+        // Security Analysis
+        async function scanUrl() {
+            const url = document.getElementById('url').value;
+            const deepScan = document.getElementById('deep-scan').checked;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/security/scan/url`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ url, deep_scan: deepScan })
+                });
+                const data = await response.json();
+                showResponse('url-scan-response', 'url-scan-result', data);
+            } catch (error) {
+                showResponse('url-scan-response', 'url-scan-result', { error: error.message });
+            }
+        }
+        
+        async function analyzeCode() {
+            const code = document.getElementById('code').value;
+            const language = document.getElementById('language').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/security/analyze/code`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ code, language })
+                });
+                const data = await response.json();
+                showResponse('code-analysis-response', 'code-analysis-result', data);
+            } catch (error) {
+                showResponse('code-analysis-response', 'code-analysis-result', { error: error.message });
+            }
+        }
+        
+        async function scanFile() {
+            const filename = document.getElementById('filename').value;
+            const content = document.getElementById('file-content').value;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/security/scan/file`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ 
+                        filename, 
+                        content: content || null 
+                    })
+                });
+                const data = await response.json();
+                showResponse('file-scan-response', 'file-scan-result', data);
+            } catch (error) {
+                showResponse('file-scan-response', 'file-scan-result', { error: error.message });
+            }
+        }
+        
+        async function getSecurityReport() {
+            try {
+                const response = await fetch(`${API_BASE}/api/v1/security/report`);
+                const data = await response.json();
+                showResponse('report-response', 'report-result', data);
+            } catch (error) {
+                showResponse('report-response', 'report-result', { error: error.message });
+            }
+        }
+        
+        // Load initial data
+        window.onload = function() {
+            // Test health check on load
+            testHealth();
+        };
+    </script>
+</body>
+</html>

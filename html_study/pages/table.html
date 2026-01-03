@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เรียนรู้กับ table</title>
+</head>
+<body>
+    <h1>เรียนรู้เกี่ยวกับตารางใน HTML</h1>
+    <p>ในบทเรียนนี้ เราจะเรียนรู้เกี่ยวกับการสร้างตารางใน HTML โดยใช้แท็ก &lt;table&gt; เพื่อจัดเรียงข้อมูลในรูปแบบตาราง</p>
+    <p>แท็ก &lt;table&gt; ใช้สำหรับสร้างตาราง ซึ่งประกอบด้วยแถว (&lt;tr&gt;) และเซลล์ (&lt;td&gt; สำหรับข้อมูลปกติ และ &lt;th&gt; สำหรับหัวข้อ)</p>
+    <h3>ตัวอย่างโค้ด HTML สำหรับแท็ก &lt;table&gt;</h3>
+    <pre>
+        &lt;table border="1"&gt;
+            &lt;tr&gt;
+                &lt;th&gt;ชื่อ&lt;/th&gt;
+                &lt;th&gt;อายุ&lt;/th&gt;
+                &lt;th&gt;เมือง&lt;/th&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;สมชาย&lt;/td&gt;
+                &lt;td&gt;30&lt;/td&gt;
+                &lt;td&gt;กรุงเทพฯ&lt;/td&gt;
+            &lt;/tr&gt;
+            &lt;tr&gt;
+                &lt;td&gt;สมหญิง&lt;/td&gt;
+                &lt;td&gt;25&lt;/td&gt;
+                &lt;td&gt;เชียงใหม่&lt;/td&gt;
+            &lt;/tr&gt;
+        &lt;/table&gt;
+    </pre>
+    <p>ในตัวอย่างข้างต้น เราได้สร้างตารางที่มีหัวข้อสามคอลัมน์ ได้แก่ ชื่อ, อายุ, และเมือง และมีข้อมูลสองแถว</p>
+    <h3>ตัวอย่างตารางที่แสดงผลลัพธ์:</h3>
+    <table border="1">
+        <tr>
+            <th>ชื่อ</th>
+            <th>อายุ</th>
+            <th>เมือง</th>           
+        </tr>
+        <tr>
+            <td>สมชาย</td>
+            <td>30</td>
+            <td>กรุงเทพฯ</td>
+        </tr>
+        <tr>
+            <td>สมหญิง</td>
+            <td>25</td>
+            <td>เชียงใหม่</td>
+        </tr>
+    </table>
+    <button onclick="window.location.href='../index.html'">กลับไปหน้าหลัก
+</body>
+</html>

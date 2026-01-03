@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="graphics-content">
+    <h1>เรียนรู้เกี่ยวกับกราฟิก</h1>
+    <p>ในบทเรียนนี้ เราจะเรียนรู้เกี่ยวกับการใช้กราฟิกใน HTML เช่น &lt;canvas&gt; และ &lt;svg&gt; เพื่อสร้างภาพและกราฟิกต่างๆ บนเว็บเพจ</p>
+    <p>องค์ประกอบ &lt;canvas&gt; ของ HTML ใช้สำหรับ วาดกราฟิกแบบเรียลไทม์ โดยใช้ JavaScript</p>
+    <p>องค์ประกอบ &lt;svg&gt; ของ HTML ใช้สำหรับ สร้างกราฟิกแบบเวกเตอร์ที่สามารถปรับขนาดได้โดยไม่สูญเสียความคมชัด </p>
+    <p>Canvas มี เมธอดหลายแบบ สำหรับการวาด เส้นทาง, กล่อง, วงกลม, ข้อความ และการ เพิ่มรูปภาพ </p>
+    <p>SVG ใช้แท็กต่างๆ เช่น &lt;circle&gt;, &lt;rect&gt;, &lt;line&gt;, &lt;text&gt; เพื่อสร้างกราฟิกที่ซับซ้อน</p>
+    </div>
+
+    <canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;">
+
+    </canvas>
+    <canvas id="myCanvas2" width="200" height="100" style="border:1px solid #d3d3d3;">
+    </canvas>
+    <canvas id="myCanvas3" width="200" height="100" style="border:1px solid #d3d3d3;">
+    </canvas>
+    <canvas id="myCanvas4" width="200" height="100" style="border:1px solid #d3d3d3;">
+   </canvas>
+   <p>ตัวอย่างโค้ด JavaScript สำหรับการวาดกราฟิกบน &lt;canvas&gt;:</p>
+   <pre>
+        &lt;!-- สร้างพื้นที่วาดกราฟิกขนาด 200x100 พิกเซล พร้อมกรอบสีดำ --&gt;
+        &lt;canvas id="myCanvas" width="200" height="100" style="border:1px solid #000000;"&gt;&lt;/canvas&gt;
+
+        &lt;script&gt;
+        // ดึง element canvas
+        var c = document.getElementById("myCanvas");
+        // ตั้งค่า context สำหรับวาดแบบ 2D
+        var ctx = c.getContext("2d");
+        // กำหนดสีที่จะเติมเป็นสีแดง
+        ctx.fillStyle = "#FF0000";
+        // วาดสี่เหลี่ยมเริ่มจากพิกัด (20,20) ขนาด 150x55 พิกเซล
+        ctx.fillRect(20, 20, 150, 55);
+        &lt;/script&gt;
+        </pre>
+
+            <button onclick="window.location.href='../index.html'">กลับไปหน้าหลัก</button>
+
+
+
+    <script>
+    var c = document.getElementById("myCanvas");
+    var ctx = c.getContext("2d");
+    ctx.fillStyle = "#FF0000";
+    ctx.fillRect(20, 20, 150,55);
+
+    var c = document.getElementById("myCanvas2");
+    var ctx = c.getContext("2d");
+    ctx.moveTo(0,0);
+    ctx.lineTo(200,100);
+    ctx.stroke();   
+    
+    var c = document.getElementById("myCanvas3");
+    var ctx = c.getContext("2d");
+    ctx.beginPath();
+    ctx.arc(95,50,40,0,2*Math.PI);
+    ctx.stroke();
+    
+    var c = document.getElementById("myCanvas4");
+    var ctx = c.getContext("2d");
+    ctx.font = "30px Arial";
+    ctx.strokeText("Hello World",10,50);
+    </script>
+</body>
+</html>

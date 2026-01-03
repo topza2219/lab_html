@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API HTML Example</title>
+</head>
+<body>
+    <h1>เรียนรู้เกี่ยวกับ API ใน HTML</h1>
+    <p>ในบทเรียนนี้ เราจะเรียนรู้เกี่ยวกับการใช้ API ต่างๆ ใน HTML เช่น Geolocation API, Web Storage API เป็นต้น</p>
+
+
+
+    <button onclick="callApi()">เรียก API</button>
+    <p>จะตอบรับด้วย JSON</p>  
+
+    <h3>ผลลัพธ์:</h3>
+    <pre id="output"></pre>
+
+        <button onclick="window.location.href='../index.html'">กลับไปหน้าหลัก</button>
+
+
+    <script>
+    async function callApi() {
+        const output = document.getElementById('output');
+        try {
+            const res = await fetch('https://unstifling-proprivilege-amada.ngrok-free.dev/echo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ text: 'สวัสดีจากหน้าเว็บ!' })
+            });
+            const data = await res.json();
+            // แสดงผล JSON ใน <pre>
+            output.textContent = JSON.stringify(data, null, 2);
+        } catch (err) {
+            output.textContent = "เกิดข้อผิดพลาด: " + err;
+        }
+    }
+    </script>
+</body>
+</html>

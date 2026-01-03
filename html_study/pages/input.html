@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เรียนรู้ HTML Form + Preview</title>
+    <style>
+   
+    </style>
+</head>
+<body>
+
+<h2>Form Example + HTML Learning</h2>
+
+<!-- ฟอร์มกรอกข้อมูล -->
+<form id="myForm">
+    <label for="name">Name:</label><br>
+    <input type="text" id="name" name="name" placeholder="พิมพ์ชื่อของคุณ" required><br>
+
+    <label for="message">Message:</label><br>
+    <textarea id="message" name="message" rows="4" placeholder="พิมพ์ข้อความ..." required></textarea><br>
+
+    <button type="submit">Submit</button>
+</form>
+
+<!-- แสดงโค้ดตัวอย่าง -->
+<h3>Code Example:</h3>
+<textarea id="code" readonly>
+&lt;div="Form"&gt;
+<h1>&lt;input&gt;A heading here&lt;input&gt;</h1>
+<p>&lt;input&gt;Posted by John Doe&lt;/input&gt;</p>
+<p>&lt;input&gt;Some additional information here&lt;/input&gt;</p>
+<p>&lt;input&gt;Lorem Ipsum dolor set amet....&lt;/input&gt;</p>
+&lt;/div&gt;
+</textarea><br>
+    <button onclick="window.location.href='../index.html'">กลับไปหน้าหลัก</button>
+
+<!-- กล่อง Preview -->
+<h3>Preview:</h3>
+<iframe id="preview"></iframe>
+
+<!-- แสดงข้อมูลที่กรอก -->
+<div id="output"></div>
+
+<script>
+const form = document.getElementById('myForm');
+const output = document.getElementById('output');
+const codeBox = document.getElementById('code');
+const preview = document.getElementById('preview');
+
+form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // ดึงค่าจากฟอร์ม
+    const name = document.getElementById('name').value;
+    const message = document.getElementById('message').value;
+
+    // แสดงข้อมูลที่กรอก
+   // output.innerHTML = `<h3>ข้อมูลที่กรอก:</h3>
+                       // <p><strong>Name:</strong> ${name}</p>
+                       // <p><strong>Message:</strong> ${message}</p>`;
+
+    // สร้าง HTML ตัวอย่าง dynamic
+    const htmlCode = `
+<h1>&lt;inputh1&gt;${name}&lt;/inputh1&gt;</h1>
+<p>&lt;inputh1&gt;${message}&lt;/inputh1&gt;</p>
+`;
+    codeBox.value = htmlCode;        // แสดงใน textarea เป็นตัวอย่างโค้ด
+    preview.srcdoc = htmlCode;       // แสดงผลลัพธ์จริงใน iframe
+});
+</script>
+
+</body>
+</html>
